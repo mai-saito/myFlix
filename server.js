@@ -1,11 +1,11 @@
-const http = require('http')
-      url = require('url'),
-      fs = require('fs');
+const http = require('http');
+const url = require('url');
+const fs = require('fs');
 
 http.createServer((request, response) => {
-  var addr = request.url,
-    q = url.parse(addr, true),
-    filePath = '';
+  var addr = request.url;
+  var q = url.parse(addr, true);
+  var filePath = '';
 
   if(q.pathname.includes('documentation')){
     filePath = (_dirname + '/documentation.html');
@@ -13,14 +13,21 @@ http.createServer((request, response) => {
     filePath = 'index.html';
   }
 
-  fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n', function(err, data){
+  fs.appendFile('log.txt', 'URL: ' + addr + '\nTimestamp: ' + new Date() + '\n\n', function(err){
     if(err){
       console.log(err);
     }else{
-    response.writeHand(200, {'Content-Type': 'text/plain'});
+      console.log('Url logged');
+    }
+  });
+
+  fs.readFile(filePath, function(err, data){
+    if(err){
+      throw err;
+    }
+    response.writeHead(200, {'Content-Type': 'text/plain'});
     response.write(data);
     response.end();
-    }
   });
 }).listen(8080);
 
