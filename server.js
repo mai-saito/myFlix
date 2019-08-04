@@ -8,7 +8,7 @@ http.createServer((request, response) => {
   var filePath = '';
 
   if(q.pathname.includes('documentation')){
-    filePath = (_dirname + '/documentation.html');
+    filePath = (__dirname + '/documentation.html');
   }else{
     filePath = 'index.html';
   }
