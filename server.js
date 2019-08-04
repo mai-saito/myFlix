@@ -24,10 +24,11 @@ http.createServer((request, response) => {
   fs.readFile(filePath, function(err, data){
     if(err){
       throw err;
-    }
-    response.writeHead(200, {'Content-Type': 'text/plain'});
+    }else{
+    response.writeHead(200, {'Content-Type': 'text/html'});
     response.write(data);
     response.end();
+  }
   });
 }).listen(8080);
 
