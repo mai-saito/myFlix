@@ -1,11 +1,117 @@
+
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>myFlix</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Abel&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="styles.css">
   </head>
   <body>
     <h1>myFlix</h1>
     <p>This app will provide you information about different movies, directors, and genres. You will be able to sign up, update your personal information, and create a list of your favorite movies.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Endpoint URL</th>
+          <th>HTTP method</th>
+          <th>Request body</th>
+          <th>Response body</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Get a list of all movies</td>
+          <td>/movies</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            JSON object holding data about all the movies, containing the title, genre and director's name property. Example:<br>
+            {<br>title : 'The Greatest Showman',<br>genre : 'Musical',<br>name : 'Michael Gracey'<br>},
+          </td>
+        </tr>
+        <tr>
+          <td>Get data about a single movie by title</td>
+          <td>/movies/[title]</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            JSON object holding data about a single movie.
+          </td>
+        </tr>
+        <tr>
+          <td>Get data about a movie genre</td>
+          <td>/movies/genres/[genre]</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            JSON object holding data about a movie genre.
+          </td>
+        </tr>
+        <tr>
+          <td>Get data about a director</td>
+          <td>/movies/directors/[name]</td>
+          <td>GET</td>
+          <td>None</td>
+          <td>
+            JSON object holding data about a director.
+          </td>
+        </tr>
+        <tr>
+          <td>Add a new user</td>
+          <td>/users</td>
+          <td>POST</td>
+          <td>
+            JSON object holding data about the user to add. Example:<br>
+              { <br>name: "Paulina Gomez",<br> password: "12345",<br> email:
+              "paulina@gmail.com", <br>date of birth: "01/01/2000" <br>}
+          </td>
+          <td>
+            JSON object holding data about the user that was add, including an ID. Example:<br>
+              { <br>id: 1<br>name: "Paulina Gomez",<br> password: "12345",<br> email:
+              "paulina@gmail.com", <br>date of birth: "01/01/2000" <br>}
+          </td>
+        </tr>
+        <tr>
+          <td>Update a user information</td>
+          <td>/users/info</td>
+          <td>PUT</td>
+          <td>
+            JSON object holding data about the user to add.
+          </td>
+          <td>A text message indicating the user information was updated.</td>
+        </tr>
+        <tr>
+          <td>Add a movie to the list of favorites</td>
+          <td>/users/favorite</td>
+          <td>POST</td>
+          <td>
+            JSON object holding data about a movie which users like to add to their list of favorites.
+          </td>
+          <td>
+            JSON object holding data about the movie that was added to the list of favorite.
+          </td>
+        </tr>
+        <tr>
+          <td>Delete a movie from the list of favorites</td>
+          <td>users/favorite</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>
+            A text message indicating the movie that was removed from the list of favorites.
+          </td>
+        </tr>
+        <tr>
+          <td>Remove a user</td>
+          <td>/users/[name]</td>
+          <td>DELETE</td>
+          <td>None</td>
+          <td>A text message indicating the user who was removed</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
 </html>
