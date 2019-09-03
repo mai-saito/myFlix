@@ -11,53 +11,89 @@ app.use(express.static('public'));
 let Movies = [{
   title : 'Kingsman: The Secret Service',
   genre : 'Action',
-  name : 'Matthew Vaughn'
+  director : 'Matthew Vaughn'
 },
 {
   title : 'The Greatest Showman',
   genre : 'Musical',
-  name : 'Michael Gracey'
+  director : 'Michael Gracey'
 },
 {
   title : 'Night at the Museum',
   genre : 'Action Comedy',
-  name : 'Shawn Levy'
+  director : 'Shawn Levy'
 },
 {
   title : 'Now You See Me',
   genre : 'Action',
-  name : 'Louis Leterrier'
+  director : 'Louis Leterrier'
 },
 {
   title : 'Harry Potter and the Sorcerer\'s Stone',
   genre : 'Fantasy',
-  name : 'Chris Columbus'
+  director : 'Chris Columbus'
 },
 {
   title : 'Baby Driver',
   genre : 'Action',
-  name : 'Edgar Wright'
+  director : 'Edgar Wright'
 },
 {
   title : 'Hairspray',
   genre : 'Musical',
-  name : 'Adam Shankman'
+  director : 'Adam Shankman'
 },
 {
   title : 'The Hitman\'s Bodyguard',
   genre : 'Action Comedy',
-  name : 'Patrick Hughes'
+  director : 'Patrick Hughes'
 },
 {
   title : 'The Lord of the Rings: The Fellowship of the Ring',
   genre : 'Fantasy',
-  name : 'Peter Jackson'
+  director : 'Peter Jackson'
 },
 {
   title : 'The Hobbit: An Unexpected Journey',
   genre : 'Fantasy',
-  name : 'Peter Jackson'
-}]
+  director : 'Peter Jackson'
+}];
+
+let Users = [
+  {
+    id: 1,
+    username: 'test1',
+    name: 'Test Name',
+    email: 'test1@example.com'
+  },
+  {
+    id: 2,
+    username: 'test2',
+    name: 'Test Name2',
+    email: 'test2@example.com'
+  }
+];
+
+let Directors = [
+  {
+    id: 1,
+    name: "Matthew Vaughn",
+    birthdate: "March 7, 1971",
+    bio: "Matthew Vaughn is an English film producer and director. He is known for producing such films as Lock, Stock and Two Smoking Barrels (1998) and Snatch (2000) "
+  },
+  {
+    id: 2,
+    name: "Michael Gracey",
+    birthdate: "N/A",
+    bio: "Michael Gracey is known for his work on The Greatest Showman (2017), Rocketman (2019) and Naruto."
+  },
+  {
+    id: 3,
+    name: "Shawn Levy",
+    birthdate: "July 23, 1968",
+    bio: "Shawn Levy was born on July 23, 1968 in Montreal, Quebec, Canada. He is a producer and director, known for Stranger Things (2016), Real Steel (2011)"
+  }
+];
 
 // GET requests
 app.get('/movies', function(req, res){
@@ -83,17 +119,27 @@ app.get('/movies/:title', (req, res) => {
 
 // Get data about a genre by name/title
 app.get('/movies/genres/:genre', (req, res) => {
-  res.json(Movies.find((movie) =>
-  { return movie.genre === req.params.genre}));
-  const message = 'Successful GET request returning data about a genre'
-  res.status(201).send(message);
+  res.json(Movies.filter((movie) =>
+  { return movie.genre.toLowerCase().includes(req.params.genre.toLowerCase())}));
 });
 
 // Get data about a director by name
-app.get('/movies/directors/:name', (res, req) => {
-  res.json(Movies.find((movie) =>
-  { return movie.name === req.params.name}));
-  res.status(201).send('Successful GET request returning data about a director')
+app.get('/movies/directors/:name', (req, res) => {
+  //const name = req.params.name;
+  //const director = Directors.find(director => director.name.toLowerCase() === name.toLowerCase());
+  //console.log(name)
+  //res.status(200).json(director);
+ res.json(Directors.find((movie) =>
+ { return movie.name === req.params.name}));
+});
+
+// Get all movies by a director
+app.get('/directors/:name', (req, res) => {
+  const name = req.params.name;
+  const director = Directors.find(director => director.name.toLowerCase() === name.toLowerCase());
+  const movies = Movies.filter(movie => movie.director.id === director.id);
+  console.log(name)
+  res.status(200).send(movies);
 });
 
 // Add new users
@@ -104,7 +150,8 @@ app.post('/users', (req, res) => {
     res.status(400).send('Missing name in request body');
   }else{
     newUser.id = uuid.v4();
-    res.status(201).send('Successful POST request adding a new user')
+    Users.push(newUser);
+    res.status(201).send(users)
   }
 });
 
