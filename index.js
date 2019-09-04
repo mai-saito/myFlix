@@ -11,52 +11,52 @@ app.use(express.static('public'));
 let Movies = [{
   title : 'Kingsman: The Secret Service',
   genre : 'Action',
-  director : 'Matthew Vaughn'
+  director : {id: 1}
 },
 {
   title : 'The Greatest Showman',
   genre : 'Musical',
-  director : 'Michael Gracey'
+  director : {id: 2}
 },
 {
   title : 'Night at the Museum',
   genre : 'Action Comedy',
-  director : 'Shawn Levy'
+  director : {id: 3}
 },
 {
   title : 'Now You See Me',
   genre : 'Action',
-  director : 'Louis Leterrier'
+  director : {id: 4}
 },
 {
   title : 'Harry Potter and the Sorcerer\'s Stone',
   genre : 'Fantasy',
-  director : 'Chris Columbus'
+  director : {id: 5}
 },
 {
   title : 'Baby Driver',
   genre : 'Action',
-  director : 'Edgar Wright'
+  director : {id: 6}
 },
 {
   title : 'Hairspray',
   genre : 'Musical',
-  director : 'Adam Shankman'
+  director : {id: 7}
 },
 {
   title : 'The Hitman\'s Bodyguard',
   genre : 'Action Comedy',
-  director : 'Patrick Hughes'
+  director : {id: 8}
 },
 {
   title : 'The Lord of the Rings: The Fellowship of the Ring',
   genre : 'Fantasy',
-  director : 'Peter Jackson'
+  director : {id: 9}
 },
 {
   title : 'The Hobbit: An Unexpected Journey',
   genre : 'Fantasy',
-  director : 'Peter Jackson'
+  director : {id: 9}
 }];
 
 let Users = [
@@ -92,7 +92,44 @@ let Directors = [
     name: "Shawn Levy",
     birthdate: "July 23, 1968",
     bio: "Shawn Levy was born on July 23, 1968 in Montreal, Quebec, Canada. He is a producer and director, known for Stranger Things (2016), Real Steel (2011)"
+  },
+  {
+    id: 4,
+    name: "Louis Leterrier",
+    birthdate: "June 17, 1973",
+    bio: "Louis Leterrier is a French film director whose films include the first two Transporter films, Unleashed, The Incredible Hulk, Clash of the Titans, Now You See Me and The Dark Crystal: Age of Resistance."
+  },
+  {
+    id: 5,
+    name: "Chris Columbus",
+    birthdate: "September 10, 1958",
+    bio: "Chris Joseph Columbus is an American filmmaker. Columbus is known for directing films such as Home Alone (1990); its sequel, Home Alone 2: Lost in New York (1992); Mrs. Doubtfire (1993); Nine Months (1995); Stepmom (1998); Bicentennial Man (1999); Harry Potter and the Sorcerer's Stone (2001); its sequel, Harry Potter and the Chamber of Secrets (2002); Percy Jackson & the Olympians: The Lightning Thief (2010); and Pixels (2015). "
+  },
+  {
+    id: 6,
+    name: "Edgar Wright",
+    birthdate: "April 18, 1974",
+    bio: "Edgar Wright is an English director, screenwriter and producer. He began making independent short films before making his first feature film A Fistful of Fingers (1995). Wright created and directed the comedy series Asylum in 1996, written with David Walliams. "
+  },
+  {
+    id: 7,
+    name: "Adam Shankman",
+    birthdate: "November 27, 1964",
+    bio: "Adam Shankman is an American film director, producer, dancer, author, actor, and choreographer. He was a judge on seasons 3-10 of the television program So You Think You Can Dance He began his professional career in musical theater, and was a dancer in music videos for Paula Abdul and Janet Jackson.  "
+  },
+  {
+    id: 8,
+    name: "Patrick Hughes",
+    birthdate: "N/A",
+    bio: "Patrick Hughes is an Australian film director. "
+  },
+  {
+    id: 9,
+    name: "Peter Jackson",
+    birthdate: "October 31, 1961",
+    bio: "Sir Peter Robert Jackson ONZ KNZM is a New Zealand film director, screenwriter, and film producer. He is best known as the director, writer, and producer of the Lord of the Rings trilogy (2001–03) and the Hobbit trilogy (2012–14), both of which are adapted from the novels of the same name by J. R. R. Tolkien. "
   }
+
 ];
 
 // GET requests
@@ -151,7 +188,7 @@ app.post('/users', (req, res) => {
   }else{
     newUser.id = uuid.v4();
     Users.push(newUser);
-    res.status(201).send(users)
+    res.status(201).send(Users)
   }
 });
 
