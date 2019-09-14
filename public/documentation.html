@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>myFlix</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Abel&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
   </head>
   <body>
     <h1>myFlix</h1>
@@ -17,7 +17,7 @@
         <tr>
           <th>Description</th>
           <th>Endpoint URL</th>
-          <th>HTTP method</th>
+          <th>Type</th>
           <th>Request body</th>
           <th>Response body</th>
         </tr>
@@ -30,12 +30,12 @@
           <td>None</td>
           <td>
             JSON object holding data about all the movies, containing the title, genre and director's name property. Example:<br>
-            {<br>title : 'The Greatest Showman',<br>genre : 'Musical',<br>name : 'Michael Gracey'<br>},
+            {<br>"Title": "The Greatest Showman",<br> "Description"....": <br> "Genre": "Musical",<br> Name :"Michael Gracey"<br>},
           </td>
         </tr>
         <tr>
           <td>Get data about a single movie by title</td>
-          <td>/movies/[title]</td>
+          <td>/movies/[Title]</td>
           <td>GET</td>
           <td>None</td>
           <td>
@@ -43,8 +43,8 @@
           </td>
         </tr>
         <tr>
-          <td>Get data about a movie genre</td>
-          <td>/movies/genres/[genre]</td>
+          <td>Get data about a movie genre by movie title</td>
+          <td>/movies/genres/[Title]</td>
           <td>GET</td>
           <td>None</td>
           <td>
@@ -52,8 +52,8 @@
           </td>
         </tr>
         <tr>
-          <td>Get data about a director</td>
-          <td>/movies/directors/[name]</td>
+          <td>Get data about a director by name</td>
+          <td>/movies/directors/[Name]</td>
           <td>GET</td>
           <td>None</td>
           <td>
@@ -66,27 +66,27 @@
           <td>POST</td>
           <td>
             JSON object holding data about the user to add. Example:<br>
-              { <br>name: "Paulina Gomez",<br> password: "12345",<br> email:
-              "paulina@gmail.com", <br>date of birth: "01/01/2000" <br>}
+              { <br>"Username": "Paulina Gomez",<br>"Password": "12345",<br> "Email":
+              "paulina@gmail.com", <br>"Birthday": "2000-01-01" <br>}
           </td>
           <td>
             JSON object holding data about the user that was add, including an ID. Example:<br>
-              { <br>id: 1<br>name: "Paulina Gomez",<br> password: "12345",<br> email:
-              "paulina@gmail.com", <br>date of birth: "01/01/2000" <br>}
+              {<br> "Favorites": [],<br> "_id": "5d7cc5e9a3d1dc4290f30036",<br> "Username": "Paulina Gomez",<br> "Password": "12345",<br> "Email": "pauilna@gmail.com",<br> "Birthday": "2000-01-01T00:00:00.000Z",<br>}
           </td>
         </tr>
         <tr>
           <td>Update a user information</td>
-          <td>/users/info</td>
+          <td>/users/[Username]</td>
           <td>PUT</td>
           <td>
-            JSON object holding data about the user to add.
+            JSON object holding data about the user to add. Example:<br>
+            {<br> "Username": "Paulina Gomez"(required),<br> "Password": "123456789"(required),<br> "Email": "paulinagomez.gmail.com"(required),<br> "Birthday": "2000-01-01"<br>}
           </td>
-          <td>A text message indicating the user information was updated.</td>
+          <td>JSON object holding data that was newly updated.</td>
         </tr>
         <tr>
           <td>Add a movie to the list of favorites</td>
-          <td>/users/favorite</td>
+          <td>/users/[Username]/Movies/[MovieID]</td>
           <td>POST</td>
           <td>
             JSON object holding data about a movie which users like to add to their list of favorites.
@@ -97,7 +97,7 @@
         </tr>
         <tr>
           <td>Delete a movie from the list of favorites</td>
-          <td>users/favorite</td>
+          <td>/users/[Username]/Movies/[MovieID]</td>
           <td>DELETE</td>
           <td>None</td>
           <td>
@@ -106,7 +106,7 @@
         </tr>
         <tr>
           <td>Remove a user</td>
-          <td>/users/[name]</td>
+          <td>/users/[Username]</td>
           <td>DELETE</td>
           <td>None</td>
           <td>A text message indicating the user who was removed</td>
