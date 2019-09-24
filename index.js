@@ -6,6 +6,9 @@ const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
 
+const passport = require('passport');
+require('./passport');
+
 const Movies = Models.Movie;
 const Users = Models.User;
 
@@ -15,13 +18,15 @@ app.use(morgan('common'));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
+var auth = require('./auth')(app);
+
 // GET requests
 app.get('/', function(req, res){
   res.send('Welcome to myFlix!')
 });
 
 // Get a list of ALL movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.find()
   .then(function(movie){
     res.status(201).json(movie);
@@ -168,12 +173,12 @@ app.put('/users/:Username', (req,res) => {
 // Add a movie to their list of favorites
 app.post('/users/:Username/Movies/:MovieID', (req, res) => {
   Users.findOneAndUpdate({Username: req.params.Username}, {
-    $push: {Favorites: req.params.MovieID}
+    $push: {Favorites: [req.params.MovieID]}
   },
   {new: true},
   function(err, updatedUser){
     if(err){
-      condsole.error(err);
+      console.error(err);
       res.status(500).send("Error: " + err);
     }else{
       res.json(updatedUser);
@@ -183,16 +188,16 @@ app.post('/users/:Username/Movies/:MovieID', (req, res) => {
 
 // Remove a movie from their list of favorites
 app.delete('/users/:Username/Movies/:MovieID', (req, res) => {
-  Movies.findOneAndRemove({Username: req.params.Username}, {
+  Users.findOneAndUpdate({Username: req.params.Username}, {
     $pull: {Favorites: req.params.MovieID}
   },
   {new: true})
   .then(function(movie){
     if(movie){
-    res.status(201).json(item);
-  }else{
-    res.status(400).send("This movie does not exist in the favorite list")
-  }
+      res.status(201).json(movie);
+    }else{
+      res.status(400).send("This movie does not exist in the favorite list")
+    }
   })
   .catch(function(err){
     console.error(err);
