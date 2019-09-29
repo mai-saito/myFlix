@@ -5,6 +5,7 @@ const uuid = require('uuid');
 const app = express();
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const {check, validationResult} = require('express-validator');
 
 const passport = require('passport');
 require('./passport');
@@ -19,6 +20,23 @@ app.use(bodyParser.json());
 app.use(express.static('public'));
 
 var auth = require('./auth')(app);
+
+const cors = require('cors');
+app.use(cors());
+// CORS codes
+var allowedOrigins = ['http://localhost:8080', 'https://testsite.com'];
+
+app.use(cors({
+  origin: function(origin, callback){
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      // If a specific origin is not found on the list of allowed origins
+      var message = 'The CORS policy for this application does not allow access from origin ' + origin;
+      return callback(new Error(message), false);
+    }
+    return callback(null, true);
+  }
+}))
 
 // GET requests
 app.get('/', function(req, res){
@@ -118,7 +136,17 @@ Password: String,
 Email: String,
 Birthday: Date
 } */
-app.post('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.post('/users', [
+  check('Username', 'Username is required').isLength({min: 5}),
+  check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+  check('Password', 'Password is required').not().isEmpty(),
+  check('Email', 'Email does not appear to be valid').isEmail()
+], (req, res) => {
+  var errors = validationResult(req);
+  if(!errors.isEmpty()){
+    return res.status(422).json({errors: errors.array()});
+  }
+  var hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({Username: req.body.Username})
   .then(function(user){
     if(user){
@@ -126,7 +154,7 @@ app.post('/users', passport.authenticate('jwt', {session: false}), (req, res) =>
     }else{
       Users.create({
         Username: req.body.Username,
-        Password: req.body.Password,
+        Password: hashedPassword,
         Email: req.body.Email,
         Birthday: req.body.Birthday
       })
@@ -228,6 +256,7 @@ app.use(function (err, req, res, next){
 })
 
 // listen for requests
-app.listen(8080, () =>
-  console.log('Your app is listening on port 8080.')
-);
+var port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", function(){
+  console.log('Listening on Port 3000.')
+});
