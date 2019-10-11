@@ -26,7 +26,7 @@ var auth = require('./auth')(app);
 const cors = require('cors');
 app.use(cors());
 // CORS codes
-var allowedOrigins = ['http://localhost:8080', 'https://testsite.com'];
+var allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://testsite.com'];
 
 app.use(cors({
   origin: function(origin, callback){
@@ -46,7 +46,7 @@ app.get('/', function(req, res){
 });
 
 // Get a list of ALL movies
-app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies', (req, res) => {
   Movies.find()
   .then(function(movie){
     res.status(201).json(movie);
@@ -58,7 +58,7 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
 });
 
 // Get data about a single movie by title
-app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies/:Title', (req, res) => {
   Movies.findOne({Title: req.params.Title})
   .then(function(movie){
     if(movie){
@@ -74,7 +74,7 @@ app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, 
 });
 
 // Get data about a genre by name/title
-app.get('/movies/genres/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies/genres/:Title', (req, res) => {
   Movies.findOne({Title: req.params.Title})
   .then(function(movie){
     if(movie){
@@ -90,7 +90,7 @@ app.get('/movies/genres/:Title', passport.authenticate('jwt', {session: false}),
 });
 
 // Get data about a director by name
-app.get('/movies/directors/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
+app.get('/movies/directors/:Name', (req, res) => {
   Movies.findOne({'Director.Name': req.params.Name})
   .then(function(movie){
     res.status(201).json(movie.Director);
