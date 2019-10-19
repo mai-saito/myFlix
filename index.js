@@ -19,6 +19,7 @@ mongoose.connect('mongodb+srv://myFlixDBadmin:mai0201@myflixdb-m30cu.mongodb.net
 
 app.use(morgan('common'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 app.use(express.static('public'));
 
 var auth = require('./auth')(app);
