@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import './movie-card.scss';
 
 export class MovieCard extends React.Component{
 	render(){
@@ -11,12 +12,12 @@ export class MovieCard extends React.Component{
 		const {movie, onClick} = this.props;
 		
 		return (
-			<Card style={{width: '16rem'}}>
+			<Card style={{width: '14rem'}}>
 				<Card.Img variant="top" src={movie.ImagePath} />
 				<Card.Body>
-					<Card.Title onClick={() => onClick(movie)} className="movie-card">{movie.Title}</Card.Title>
+					<Card.Title onClick={() => onClick(movie)} className="card-title">{movie.Title}</Card.Title>
 					<Card.Text>{movie.Description}</Card.Text>
-					<Button onClick={() => onClick(movie)} className="movie-card">{movie.Title}</Button>
+					<Button onClick={() => onClick(movie)} className="movie-card">More...</Button>
 				</Card.Body>
 			</Card>
 		);

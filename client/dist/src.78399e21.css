@@ -1,3 +1,40 @@
+h3 {
+  color: #03A9F4;
+  font-size: 25px;
+  font-weight: 400px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: none;
+}
+h3 {
+  color: #03A9F4;
+  font-size: 25px;
+  font-weight: 400px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: none;
+}
+.card-title {
+  color: #03A9F4;
+  font-weight: 400px;
+}
+
+.card {
+  margin: 10px;
+}
+
+.card-title:hover {
+  cursor: pointer;
+}
+.movie-title {
+  color: #03A9F4;
+  font-weight: 500;
+  font-size: 25px;
+}
+
+.label {
+  visibility: hidden;
+}
 .my-flix {
   color: steelblue;
 }
